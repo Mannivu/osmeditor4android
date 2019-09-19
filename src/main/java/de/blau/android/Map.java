@@ -97,13 +97,14 @@ public class Map extends View implements IMapView {
      */
     private final List<MapViewLayer> renderLayers = new ArrayList<>();
     /* currently the layers setup is very static and we provide methods to access them */
-    private MapTilesLayer                            backgroundLayer = null;
-    private MapTilesOverlayLayer                     overlayLayer    = null;
-    private de.blau.android.layer.photos.MapOverlay  photoLayer      = null;
-    private de.blau.android.layer.tasks.MapOverlay   taskLayer       = null;
-    private de.blau.android.layer.gpx.MapOverlay     gpxLayer        = null;
-    private de.blau.android.layer.geojson.MapOverlay geojsonLayer    = null;
-    private de.blau.android.layer.data.MapOverlay    dataLayer       = null;
+    private MapTilesLayer                              backgroundLayer = null;
+    private MapTilesOverlayLayer                       overlayLayer    = null;
+    private de.blau.android.layer.photos.MapOverlay    photoLayer      = null;
+    private de.blau.android.layer.tasks.MapOverlay     taskLayer       = null;
+    private de.blau.android.layer.gpx.MapOverlay       gpxLayer        = null;
+    private de.blau.android.layer.geojson.MapOverlay   geojsonLayer    = null;
+    private de.blau.android.layer.data.MapOverlay      dataLayer       = null;
+    private de.blau.android.layer.mapillary.MapOverlay mapillaryLayer  = null;
 
     /**
      * The visible area in decimal-degree (WGS84) -space.
@@ -276,6 +277,11 @@ public class Map extends View implements IMapView {
             }
             tempLayers.add(geojsonLayer);
             geojsonLayer.setIndex(tempLayers.size() - 1);
+            if (mapillaryLayer == null) {
+                mapillaryLayer = new de.blau.android.layer.mapillary.MapOverlay(this);
+            }
+            tempLayers.add(mapillaryLayer);
+            mapillaryLayer.setIndex(tempLayers.size() - 1);
             mLayers.clear();
             mLayers.addAll(tempLayers);
         }
@@ -394,6 +400,16 @@ public class Map extends View implements IMapView {
     @Nullable
     public de.blau.android.layer.geojson.MapOverlay getGeojsonLayer() {
         return geojsonLayer;
+    }
+    
+    /**
+     *
+     * 
+     * @return the current geojson layer or null if none is configured
+     */
+    @Nullable
+    public de.blau.android.layer.mapillary.MapOverlay getMapillaryLayer() {
+        return mapillaryLayer;
     }
 
     /**
@@ -675,7 +691,7 @@ public class Map extends View implements IMapView {
     }
 
     /**
-     * Show some statistics for depugging purposes
+     * Show some statistics for debugging purposes
      * 
      * @param canvas canvas to draw on
      * @param fps frames per second

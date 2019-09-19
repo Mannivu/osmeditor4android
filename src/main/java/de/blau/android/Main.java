@@ -163,6 +163,7 @@ import de.blau.android.util.Snack;
 import de.blau.android.util.ThemeUtils;
 import de.blau.android.util.Util;
 import de.blau.android.util.Version;
+import de.blau.android.views.SplitPaneLayout;
 import de.blau.android.views.ZoomControls;
 import de.blau.android.views.layers.MapTilesLayer;
 import de.blau.android.voice.Commands;
@@ -491,7 +492,8 @@ public class Main extends FullScreenAppCompatActivity
             }
         }
 
-        LinearLayout ml = (LinearLayout) getLayoutInflater().inflate(layout, null);
+        // LinearLayout ml = (LinearLayout) getLayoutInflater().inflate(layout, null);
+        SplitPaneLayout  ml = (SplitPaneLayout) getLayoutInflater().inflate(layout, null);
         mapLayout = (RelativeLayout) ml.findViewById(R.id.mainMap);
 
         if (map != null) {
@@ -2746,6 +2748,10 @@ public class Main extends FullScreenAppCompatActivity
             DownloadCurrentWithChanges.showDialog(this);
         } else {
             performCurrentViewHttpLoad(this, add);
+        }
+        de.blau.android.layer.mapillary.MapOverlay mapillaryLayer = map.getMapillaryLayer();
+        if (mapillaryLayer != null) {
+            mapillaryLayer.downloadBox(this, map.getViewBox(), null);
         }
     }
 

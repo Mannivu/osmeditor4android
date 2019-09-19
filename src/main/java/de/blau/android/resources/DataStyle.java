@@ -491,6 +491,11 @@ public final class DataStyle extends DefaultHandler {
      * GPS arrow
      */
     private Path orientationPath = new Path();
+    
+    /**
+     * Mapillary image marker
+     */
+    private Path mapillaryPath = new Path();
 
     /**
      * GPS waypoint
@@ -563,6 +568,7 @@ public final class DataStyle extends DefaultHandler {
         createWayPointPath(1.0f);
         createCrosshairsPath(1.0f);
         createXPath(1.0f);
+        createMapillaryPath(1.0f);
 
         Log.i(DEBUG_TAG, "setting up default profile elements");
         internalStyles = new HashMap<>();
@@ -1149,6 +1155,7 @@ public final class DataStyle extends DefaultHandler {
                         createWayPointPath(scale);
                         createCrosshairsPath(scale);
                         createXPath(scale);
+                        createMapillaryPath(scale);
                         return;
                     case MIN_HANDLE_LEN:
                         String lenStr = atts.getValue("length");
@@ -1323,7 +1330,7 @@ public final class DataStyle extends DefaultHandler {
     }
 
     /**
-     * Create a path for way orientation arrows
+     * Create a path for the "GPS" arrow 
      * 
      * @param scale scaling factor
      */
@@ -1334,6 +1341,20 @@ public final class DataStyle extends DefaultHandler {
         orientationPath.lineTo(0, Density.dpToPx(ctx, 10) * scale);
         orientationPath.lineTo(Density.dpToPx(ctx, -15) * scale, Density.dpToPx(ctx, 20) * scale);
         orientationPath.lineTo(0, Density.dpToPx(ctx, -20) * scale);
+    }
+    
+    /**
+     * Create a path for the mapillary image marker 
+     * 
+     * @param scale scaling factor
+     */
+    private void createMapillaryPath(float scale) {
+        mapillaryPath = new Path();
+        mapillaryPath.moveTo(0, Density.dpToPx(ctx, -8) * scale);
+        mapillaryPath.lineTo(Density.dpToPx(ctx, 8) * scale, Density.dpToPx(ctx, 10) * scale);
+        mapillaryPath.lineTo(0, Density.dpToPx(ctx, 5) * scale);
+        mapillaryPath.lineTo(Density.dpToPx(ctx, -8) * scale, Density.dpToPx(ctx, 10) * scale);
+        mapillaryPath.lineTo(0, Density.dpToPx(ctx, -8) * scale);
     }
 
     @Override
@@ -1484,6 +1505,13 @@ public final class DataStyle extends DefaultHandler {
      */
     public Path getOrientationPath() {
         return orientationPath;
+    }
+    
+    /**
+     * @return the orientation_path
+     */
+    public Path getMapillaryPath() {
+        return mapillaryPath;
     }
 
     /**
